@@ -1,0 +1,59 @@
+{
+  "revision": 0,
+  "state": {
+    "format": "living-mandala-study",
+    "version": 1,
+    "environment": "golden",
+    "reducedMotion": false,
+    "items": [
+      {
+        "name": "Mercedes",
+        "category": "Person",
+        "angle": 0.07999999355351808,
+        "radius": 6.5000003325291535,
+        "scale": 1,
+        "appearance": "mercedes-study",
+        "id": "shared-1",
+        "note": ""
+      },
+      {
+        "name": "Benji",
+        "category": "Pet",
+        "angle": 0.7199999735140084,
+        "radius": 6.799999967834756,
+        "scale": 1,
+        "appearance": "benji-study",
+        "id": "shared-2",
+        "note": ""
+      },
+      {
+        "name": "Something treasured",
+        "category": "Object",
+        "angle": 2.9632742401901675,
+        "radius": 6.499999952132514,
+        "scale": 1,
+        "id": "shared-3",
+        "note": ""
+      },
+      {
+        "name": "An idea to explore",
+        "category": "Idea",
+        "angle": -2.0632742171209104,
+        "radius": 6.499999967882445,
+        "scale": 1,
+        "id": "shared-4",
+        "note": ""
+      },
+      {
+        "name": "How I feel",
+        "category": "Feeling",
+        "angle": -0.806637099741733,
+        "radius": 6.499999795716318,
+        "scale": 1,
+        "id": "shared-5",
+        "note": ""
+      }
+    ]
+  },
+  "readOnly": true
+}

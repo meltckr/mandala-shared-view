@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark"><title>Your mandala · Interactive study</title>
+  <meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mandala">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='16' fill='none' stroke='%23c6d8bc' stroke-width='2'/%3E%3Ccircle cx='20' cy='20' r='6' fill='%23c6d8bc'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
+</head>
+<body data-public-view="true" class="read-only">
+  <canvas id="world" aria-label="Your three-dimensional mandala. Drag to look around; use arrow keys to turn." tabindex="0"></canvas>
+  <div class="vignette" aria-hidden="true"></div><div id="labels"></div>
+  <header><div class="identity"><span class="eyebrow">A WORLD THAT GROWS WITH YOU</span><h1>Your mandala<span class="title-dot">.</span></h1><p>Stay at the center. Make room for what matters.</p></div><div class="status-wrap"><span class="study">Interactive study</span><span id="save-status" role="status">Sample world</span></div></header>
+  <div id="loading" role="status"><span class="loader-ring"></span><span>Opening your garden</span></div>
+  <div id="notice" class="notice" role="status" hidden></div>
+  <aside id="inspector" class="panel inspector" aria-label="Selected item" hidden>
+    <div class="panel-heading"><span id="category" class="eyebrow">OBJECT</span><button id="close-inspector" class="icon" aria-label="Close item details">×</button></div>
+    <label for="item-name">Name</label><input id="item-name" maxlength="80" autocomplete="off">
+    <label for="item-note">What does it hold for you?</label><textarea id="item-note" rows="3" maxlength="2000"></textarea>
+    <span class="field-label">Place in your world</span>
+    <div class="move-grid"><button data-move="left" aria-label="Move left">← Left</button><button data-move="right" aria-label="Move right">Right →</button><button data-move="closer">Bring closer</button><button data-move="farther">Move farther</button></div>
+    <label for="item-scale">Presence <span id="scale-value">1×</span></label><input id="item-scale" type="range" min="0.5" max="2" step="0.1" value="1">
+    <button id="remove" class="remove">Remove from my world</button><p class="small-note">You can undo any edit.</p>
+    <button id="open-item-checkin" class="source-checkin" hidden>Open original check-in</button>
+  </aside>
+  <section id="add-panel" class="panel add-panel" aria-label="Add to your mandala" hidden>
+    <span class="eyebrow">MAKE ROOM FOR</span><div id="categories"></div><button id="add-benji" class="benji-option">+ Add Benji</button><p class="small-note">Your tricolor Bernedoodle · provisional companion study</p>
+  </section>
+  <section id="settings" class="panel settings" aria-label="Environment controls" hidden>
+    <span class="eyebrow">THE ATMOSPHERE</span><p class="setting-copy">Choose how this moment feels.</p>
+    <div class="environment-options"><button data-environment="golden">Golden hour</button><button data-environment="daylight">Clear day</button><button data-environment="blue">Blue hour</button></div>
+    <p class="small-note">Illustrative lighting presets · weather is not live.</p>
+    <button id="retry-save" hidden>Check connection / retry save</button>
+    <label class="check"><input id="motion" type="checkbox"> Reduce motion</label>
+    <div class="file-actions"><button id="export">Export world</button><button id="import">Import world</button><input id="import-file" type="file" accept="application/json,.json" hidden></div>
+  </section>
+  <footer><div class="zoom-controls" aria-label="Zoom controls"><button id="zoom-out" aria-label="Zoom out">−</button><output id="zoom-level" aria-label="Zoom level">100%</output><button id="zoom-in" aria-label="Zoom in">+</button></div><div class="hint" id="hint">Drag to look around <span>·</span> Pinch or scroll to zoom</div><nav class="toolbar" aria-label="World controls">
+    <button id="add" class="primary" aria-expanded="false"><span class="plus">+</span> Add to my world</button>
+    <button id="today" class="today" hidden>◉ Today</button><span class="divider"></span><button id="view" aria-pressed="false">◎ Overview</button><button id="atmosphere" aria-expanded="false">☀ Atmosphere</button><button id="undo" disabled>↶ Undo</button>
+  </nav><div class="bottom-note"><span id="item-count">5 things in your world</span><span>Private · stored in this browser</span></div></footer>
+  <dialog id="checkin-dialog" class="checkin-dialog" aria-labelledby="checkin-title">
+    <div class="panel-heading"><div><span class="eyebrow">A MOMENT FOR YOU</span><h2 id="checkin-title">Today</h2></div><button id="close-checkin" class="icon" aria-label="Close daily check-in">×</button></div>
+    <p class="checkin-intro">Notice your body, make room for your feelings, and choose one small intention.</p>
+    <div class="checkin-tabs" role="tablist" aria-label="Check-in views"><button id="tab-reflection" role="tab" aria-selected="true" aria-controls="checkin-reflection">Reflection</button><button id="tab-world" role="tab" aria-selected="false" aria-controls="checkin-world" tabindex="-1">Show in mandala</button></div>
+    <section id="checkin-reflection" role="tabpanel" aria-labelledby="tab-reflection">
+    <form id="checkin-form"><fieldset id="checkin-fields">
+      <label for="checkin-date">Date <span class="small-note">Arizona time</span></label><input id="checkin-date" type="date" required>
+      <label for="checkin-body">How does your body feel?</label><textarea id="checkin-body" maxlength="2000" rows="2" placeholder="Rested, tired, tense, comfortable…"></textarea>
+      <label for="checkin-energy">Energy</label><select id="checkin-energy"><option value="">Choose if you like</option><option value="1">1 · Very low</option><option value="2">2 · Low</option><option value="3">3 · Steady</option><option value="4">4 · Good</option><option value="5">5 · High</option></select>
+      <label for="checkin-emotions">What emotions are here?</label><input id="checkin-emotions" type="text" maxlength="500" placeholder="Use your own words">
+      <label for="checkin-thoughts">What is on your mind?</label><textarea id="checkin-thoughts" maxlength="4000" rows="3" placeholder="A thought, idea, concern, or something you appreciate"></textarea>
+      <label for="checkin-intention">One intention for today</label><input id="checkin-intention" type="text" maxlength="500" placeholder="Something small and within reach">
+      <button class="save-checkin" type="submit">Save check-in</button>
+    </fieldset></form>
+    <p id="checkin-status" role="status" class="checkin-status"></p>
+    <div class="checkin-recovery"><button id="load-checkins" type="button">Load saved</button><button id="restore-checkin-draft" type="button" hidden>Restore draft</button></div>
+    </section>
+    <section id="checkin-world" role="tabpanel" aria-labelledby="tab-world" hidden>
+      <h3>Choose what shows up</h3><p id="reflection-date" class="small-note"></p>
+      <p class="checkin-intro">Choose a symbol and a short label for each part you want in your world. These choices use your saved reflection.</p>
+      <fieldset id="reflection-options"><div id="reflection-choices"></div><button id="apply-reflections" class="save-checkin" type="button">Apply to mandala</button></fieldset>
+      <p id="reflection-status" class="checkin-status" role="status"></p>
+    </section>
+    <h3>Recent check-ins</h3><div id="checkin-history" class="checkin-history"></div><p id="checkin-history-empty" class="small-note">Your saved dates will appear here.</p>
+    <p class="small-note">Private to your mandala. Changes to your world and its Undo history do not change these reflections.</p>
+  </dialog>
+  <script type="module" src="boot.mjs"></script>
+</body></html>
